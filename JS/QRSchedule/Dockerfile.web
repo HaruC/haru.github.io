@@ -1,0 +1,27 @@
+FROM node:latest
+
+RUN mkdir app
+
+# Move development folder
+ADD ./web/ /app
+
+WORKDIR  /app
+
+# Install node dependencies
+RUN npm i
+
+# Create production build
+RUN npm run build
+
+# Move production build to express server
+RUN mv build/ server/
+
+# cd != WORKDIR
+WORKDIR /app/server
+
+# Install express dependencies
+RUN npm i
+
+EXPOSE 80
+
+CMD npm start

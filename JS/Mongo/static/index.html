@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Post queries</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			var first,second;
+			$("#submit").click(function(){
+				first=$("#first").val();
+				second=$("#second").val();
+				$.ajax({
+					url: '/minus', 
+					type: 'POST',
+					contentType: 'application/json', 
+					data:JSON.stringify({"first":first,"second":second}),
+				success: function(data){
+					$("#ans").append(data);
+				},
+				error: function(e){
+					$("#ans").append("Error"+e);
+				}
+				});
+			});
+		});
+    </script>
+</head>
+<body>
+	<div>
+		<h4 id="author" title="GossJS">Яковлев Игорь</h4>
+		<h1>Subtraction</h1>
+		<form method="POST" action="/minus" id="minus">
+			<label>A:</label>
+			<input type="number" id="first" name="first"><br>
+			<label>B:</label>
+			<input type="number" id="second" name="second">
+			<button type="button" id="submit">Submit</button>
+		</form>
+	</div>
+	<div id="ans"></div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+FROM python:latest
+
+RUN apt update && apt install firebird-dev -y
+
+RUN set -ex && mkdir backend backend/db data
+
+ADD ./api/requirements.txt /backend
+
+ADD ./api/db /backend/db
+
+ADD ./api/static /backend/static
+
+WORKDIR /backend
+
+RUN set -ex && pip install pipenv --upgrade && pipenv install
+
+EXPOSE 8080
+
+CMD pipenv run python3 db/app.py
